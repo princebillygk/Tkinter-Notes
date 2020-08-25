@@ -433,3 +433,56 @@ root.mainloop()
 ```
 
 ![](https://imgur.com/zzfMJGG.png)
+
+## Radio Button:
+
+```python
+from tkinter import Tk, \
+    StringVar, \
+    Radiobutton, \
+    Label, \
+    Button
+
+root = Tk()
+root.title('Radio Button')
+
+TOPPINGS = [
+    ("Pepperoni", "pepproni"),
+    ("Cheese", "cheese"),
+    ("Mushroom", "mushroom"),
+    ("Onion", "onion"),
+    ("Chilly", "chilly"),
+]
+
+pizza = StringVar() # We need to work with tk variable when working with tk
+#tk variable have some useful function like set and get
+pizza.set('pepproni') #setting check box value
+
+mybutton = Button(root,
+                  text="Update",
+                  command=lambda: clicked(pizza.get())
+                  )
+mybutton.pack()
+
+my_label = Label(root, text=pizza.get())
+my_label.pack()
+
+for text, topping in TOPPINGS:
+    Radiobutton(root, text=text, variable=pizza, value=topping, command=lambda: clicked(pizza.get())) \
+        .pack()
+
+
+def clicked(value):
+    global my_label
+    """Trigers action on radio button click"""
+    my_label.forget()
+    my_label = Label(root, text=value)
+    my_label.pack()
+
+
+
+root.mainloop()
+\
+```
+
+![](https://i.ibb.co/5sLNrhQ/gupi.gif)
