@@ -389,6 +389,8 @@ self.status_bar.grid(row=2, column=0, columnspan=3, sticky=W + E)
  #stick=W + E streach width from West to East
 ```
 
+
+
 ## Frame
 
 Frames works as div (html)
@@ -433,6 +435,8 @@ root.mainloop()
 ```
 
 ![](https://imgur.com/zzfMJGG.png)
+
+
 
 ## Radio Button:
 
@@ -486,3 +490,330 @@ root.mainloop()
 ```
 
 ![](https://i.ibb.co/5sLNrhQ/gupi.gif)
+
+
+
+
+
+## Message Box
+
+#### Showing different types of Message boxes
+
+```python
+from tkinter import Tk, Button, messagebox
+
+root = Tk()
+root.title('Message Box')
+
+def normal_popup():
+    messagebox._show(
+        "This is my popup",  # This will be show as title
+        "Hello World"		 # This will be show as body
+    )
+
+def warning_popup():
+    messagebox.showwarning(
+        "This is warning popup",
+        "Hei Hei, Are you in a hurry today!!!"
+    )
+
+
+def error_popup():
+    messagebox.showerror(
+        "This is warning popup",
+        "Big error message"
+    )
+
+
+def info_popup():
+    messagebox.showinfo(
+        "This is Info popup",
+        "Nice to meet you"
+    )
+
+
+Button(root,
+       text="Open Normal popup",
+       command=normal_popup).pack()
+
+Button(root,
+       text="Open Warning popup",
+       command=warning_popup).pack()
+
+Button(root,
+       text="Open Normal popup",
+       command=error_popup).pack()
+
+Button(root,
+       text="Open Info popup",
+       command=info_popup).pack()
+
+root.mainloop()
+```
+
+![](https://i.ibb.co/cDdD7xS/messagebox.gif)
+
+
+
+### Asking different types of Question
+
+```python
+from tkinter import Tk, Button, messagebox
+
+root = Tk()
+root.title('Message Box')
+
+
+def askquestion():
+    messagebox.askquestion("Question", "How are you?")
+
+
+def yes_no():
+    messagebox.askyesno("Yes or no", "Are you sure?")
+
+
+def ok_cancel():
+    messagebox.askokcancel("Ok?", "Is everything fine?")
+
+
+def retry_cancel():
+    messagebox.askretrycancel("Hei", "Wanna do it again?")
+
+
+def yes_no_cancel():
+    messagebox.askyesnocancel("Yes no cancel", "Do you want to save and close it?")
+
+
+Button(root,
+       text="Open question popup",
+       command=askquestion).pack()
+
+Button(root,
+       text="Open yes or no or cancel question popup",
+       command=yes_no_cancel).pack()
+
+Button(root,
+       text="Open yes or no question popup",
+       command=yes_no).pack()
+
+Button(root,
+       text="Open ok or cancel popup",
+       command=ok_cancel).pack()
+
+Button(root,
+       text="Open retry or cancel popup",
+       command=retry_cancel).pack()
+
+root.mainloop()
+
+```
+
+![](https://i.ibb.co/h18YfMC/yesno.gif)
+
+#### Interacting with messagebox
+
+```python
+def yes_no():
+    response = messagebox.askyesno("Yes or no", "Are you sure?")
+    if response = 1
+    	print("You clicked yes")
+    else:
+    	print("you clickd no")
+Button(root,
+       text="Open yes or no question popup",
+       command=yes_no).pack()
+```
+
+
+
+## Open new window in python
+
+```python
+from tkinter import Tk, Label, Toplevel, Button
+
+from PIL import ImageTk, Image
+
+root = Tk()
+root.title("Main Window")
+
+
+class NewWindow(Toplevel):
+    """Creates a new window over existing window"""
+    def __init__(self, master):
+        super().__init__(master)
+        self.parent = master
+        self.title('Secondary Window')
+        self.my_img = ImageTk.PhotoImage(Image.open('pic_1.webp')) #we must keep this as extra reference other wise python will clear this value by garbage collector and the image will not be shown
+        Label(self, image=self.my_img).pack()
+
+
+def open_new_window():
+    NewWindow(root)
+
+
+Button(root, text="Open new window", command=open_new_window).pack()
+
+root.mainloop()
+```
+
+![](https://i.ibb.co/WvJFxf8/open-new-windo.gif)
+
+
+
+## File Dialogue
+
+```python
+from pathlib import Path
+from tkinter import Tk, filedialog, Label, Button
+
+from PIL import ImageTk, Image
+
+root = Tk()
+root.title("File dialogue")
+
+
+def insert_image():
+    global img
+    img_path = filedialog.askopenfile(
+        initialdir=Path.home(),
+        filetypes=(
+            ("Image files", "*.png"), ("All Files", "*.*")))
+    img = ImageTk.PhotoImage(Image.open(img_path.name))
+    img_label = Label(image=img).pack()
+
+
+Button(text="Insert Image", command=insert_image).pack()
+root.mainloop()
+```
+
+![](https://i.ibb.co/mv66dd2/insertimage.gif)
+
+
+
+## Slider 
+
+```python
+from tkinter import Tk, Scale, HORIZONTAL, VERTICAL
+
+root = Tk()
+root.title("Slide")
+
+horizontal = Scale(root,
+                   orient=HORIZONTAL,
+                   length=300,
+                   from_=400,
+                   to=600,
+                   command=lambda x:
+                   root.geometry(str(horizontal.get()) + "x" + str(vertical.get()))
+                   )
+
+vertical = Scale(root,
+                 orient=VERTICAL,
+                 length=300,
+                 from_=400,
+                 to=600,
+                 command=lambda x:
+                 root.geometry(str(horizontal.get()) + "x" + str(vertical.get()))
+                 )
+
+horizontal.pack()
+vertical.pack()
+
+root.mainloop()
+
+```
+
+![](https://i.ibb.co/Ns1DcP5/slider.gif)
+
+
+
+## Checkbox
+
+The default offvalue is 0 and onvalue is 1 which is Intvar() but we can change it to any thing (eg. string)
+
+```python
+from tkinter import Tk, Checkbutton, StringVar, Label
+
+root = Tk()
+root.title("Checkbox")
+
+
+class CheckboxExample:
+    """Creates a checkbox widget with label"""
+
+    def __init__(self, master):
+        self.value = StringVar()
+        self.value.set("Not Checked")
+        self.checkbox = Checkbutton(master,
+                                    text="Check me or not",
+                                    var=self.value,
+                                    command=self.update_value,
+                                    onvalue="Checked",
+                                    offvalue="Not Checked")
+        self.label = Label(text=self.value.get())
+        self.checkbox.pack()
+        self.label.pack()
+
+    def update_value(self):
+        self.label.forget()
+        self.label = Label(text=self.value.get())
+        self.label.pack()
+
+
+CheckboxExample(root)
+root.mainloop()
+
+```
+
+
+
+![](https://i.ibb.co/PjmjdT4/checkbox.gif)
+
+
+
+DropDown List
+
+```python
+from tkinter import Tk, OptionMenu, StringVar, Label
+
+root = Tk()
+root.title('Drop Down Menu')
+
+options = [
+    "Monday",
+    "Tuesday",
+    "Wednesday",
+    "Thursday",
+    "Friday",
+    "Saturday",
+    "Sunday"
+]
+
+
+class DropDownExample:
+    """Creates a example for dropdown menu"""
+
+    def __init__(self, master):
+        self.value = StringVar()
+        self.value.set(options[0])
+        self.dropdown = OptionMenu(master,
+                                   self.value,
+                                   *options,
+                                   command=self.update_value)
+        self.label = Label(text=self.value.get())
+        self.dropdown.pack()
+        self.label.pack()
+
+    def update_value(self, value):
+        self.label.forget()
+        print(value)
+        self.label = Label(text=value)
+        self.label.pack()
+
+
+dropdown = DropDownExample(root)
+root.mainloop()
+
+```
+
+![](https://i.ibb.co/9nxwP4b/dropdown.gif)
